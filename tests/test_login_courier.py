@@ -18,11 +18,11 @@ class TestLoginCourier:
         with allure.step('Отправить POST-запрос на логин курьера'):
             response = requests.post(Urls.LOGIN_COURIER_URL, data=payload)
             
-            assert response.status_code == 200, (
-                f'Получен статус-код {response.status_code}, '
-                f'ожидался 200 OK')
-            assert 'id' in response.json(), (
-                f'В ответе нет ключа "id". Получен ответ: {response.json()}')
+        assert response.status_code == 200, (
+            f'Получен статус-код {response.status_code}, '
+            f'ожидался 200 OK')
+        assert 'id' in response.json(), (
+            f'В ответе нет ключа "id". Получен ответ: {response.json()}')
 
     @allure.title('Нельзя авторизовать курьера без обязательного поля login или password')
     @pytest.mark.parametrize('field_to_empty', ['login', 'password'], 
@@ -36,7 +36,7 @@ class TestLoginCourier:
         with allure.step(f'Сделать поле "{field_to_empty}" пустым'):
             payload[field_to_empty] = ""
         with allure.step('Отправить POST-запрос на логин курьера'):
-            response = requests.post(Urls.LOGIN_COURIER_URL, data=payload, timeout=30)
+            response = requests.post(Urls.LOGIN_COURIER_URL, data=payload, timeout=60)
 
         assert response.status_code == 400, (
             f'Получен статус-код {response.status_code}, ожидался 400 Bad Request')

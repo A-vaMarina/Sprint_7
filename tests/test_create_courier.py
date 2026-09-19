@@ -23,7 +23,7 @@ class TestCreateCourier:
 
         assert response.status_code == 201, (
             f'Получен статус-код {response.status_code}, '
-            f'ожидался 201')
+            f'ожидался 201 Created')
         assert response.json() == Messages.CREATE_COURIER_SUCCESS, (
             f'Получен ответ {response.json()}, '
             f'ожидался {Messages.CREATE_COURIER_SUCCESS}')

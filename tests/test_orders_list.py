@@ -5,7 +5,7 @@ from data import Urls
 
 
 @allure.feature('Получение списка заказов')
-class TestOrderList:
+class TestOrdersList:
     
     @allure.title('Запрос на получение списка заказов возвращает список')
     def test_get_orders_returns_list(self):

@@ -45,12 +45,14 @@ def delete_courier(courier_id):
 def cancel_order(track):
     return requests.put(Urls.CANCEL_ORDER_URL, params={'track': track})    
 
+
 def create_order(payload):
     return requests.post(Urls.CREATE_ORDER_URL, json=payload)
 
+
 def get_order_id_by_track(track):
     """
-    Получает id заказа из ответа на запрос заказа по track.
+    Получает id заказа из ответа на запрос на получение заказа по его track-номеру.
     """
     response = requests.get(Urls.GET_ORDER_BY_TRACK_URL, params={'t': track})
     return response.json()['order']['id']

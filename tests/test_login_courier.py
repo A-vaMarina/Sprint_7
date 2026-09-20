@@ -37,7 +37,7 @@ class TestLoginCourier:
         with allure.step(f'Сделать поле "{field_to_empty}" пустым'):
             payload[field_to_empty] = ""
         with allure.step('Отправить POST-запрос на логин курьера'):
-            response = requests.post(Urls.LOGIN_COURIER_URL, data=payload, timeout=60)
+            response = requests.post(Urls.LOGIN_COURIER_URL, data=payload, timeout=10)
 
         assert response.status_code == 400, (
             f'Получен статус-код {response.status_code}, ожидался 400 Bad Request')
@@ -56,7 +56,7 @@ class TestLoginCourier:
                 "login": create_and_delete_courier["login"],
                 "password": create_and_delete_courier["password"]
             }
-        with allure.step(f'Сделать поле "{invalid_field}" несоответсвующем паре логин-пароль'):
+        with allure.step(f'Сделать поле "{invalid_field}" несоответсвующим паре логин-пароль'):
             payload[invalid_field] = payload[invalid_field] + "x"
         with allure.step('Отправить POST-запрос на логин курьера'):
             response = requests.post(Urls.LOGIN_COURIER_URL, data=payload, timeout=30)

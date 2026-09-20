@@ -26,3 +26,28 @@ class TestDeleteCourier:
             f'Получен ответ {response.json()}, '
             f'ожидался {Messages.DELETE_COURIER_SUCCESS}')
 
+
+    @allure.title('Ошибка, если не передан id курьера')
+    def test_delete_courier_without_courier_id(self):
+        with allure.step('Отправить DELETE-запрос на удаление курьера без id'):
+            response = requests.delete(Urls.DELETE_COURIER_URL)
+        
+        assert response.status_code == 400, (
+            f'Получен статус-код {response.status_code}, '
+            f'ожидался 400')
+        assert response.json()['message'] == Messages.DELETE_COURIER_WITHOUT_ID, (
+            f'Получено сообщение "{response.json()['message']}", '
+            f'ожидалось "{Messages.DELETE_COURIER_WITHOUT_ID}"')
+
+
+    @allure.title('Ошибка, если передан несуществующий id курьера')
+    def test_delete_courier_id_not_exist(self):
+        with allure.step('Отправить DELETE-запрос на удаление курьера с несуществующим id'):
+            response = requests.delete(f"{Urls.DELETE_COURIER_URL}99999999")
+            
+        assert response.status_code == 404, (
+            f'Получен статус-код {response.status_code}, '
+            f'ожидался 404')
+        assert response.json()['message'] == Messages.DELETE_COURIER_ID_NOT_EXIST, (
+            f'Получено сообщение "{response.json()['message']}", '
+            f'ожидалось "{Messages.DELETE_COURIER_ID_NOT_EXIST}"')

@@ -13,6 +13,7 @@ pytest tests/test_create_order.py
 pytest tests/test_orders_list.py
 
 pytest tests/test_get_order.py -v
+pytest tests/test_accept_order.py -v
 
 
 # Запустить конкретный файл с тестами в Allure

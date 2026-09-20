@@ -21,16 +21,16 @@ class TestCreateCourier:
         with allure.step('Отправить POST-запрос на создание курьера'):
             response = requests.post(Urls.CREATE_COURIER_URL, data=payload)
 
+        # Передаём данные фикстуре, чтобы она удалила курьера после теста
+        cleanup_courier.update(payload)
+
         assert response.status_code == 201, (
             f'Получен статус-код {response.status_code}, '
             f'ожидался 201 Created')
         assert response.json() == Messages.CREATE_COURIER_SUCCESS, (
             f'Получен ответ {response.json()}, '
             f'ожидался {Messages.CREATE_COURIER_SUCCESS}')
-
-        # Передаём данные фикстуре, чтобы она удалила курьера после теста
-        cleanup_courier.update(payload)
-
+      
 
     @allure.title('Успешное создание курьера без имени')
     def test_create_courier_without_first_name(self, cleanup_courier):
@@ -42,6 +42,9 @@ class TestCreateCourier:
 
         with allure.step('Отправить POST-запрос на создание курьера'):
             response = requests.post(Urls.CREATE_COURIER_URL, data=payload)
+
+        # Передаём данные фикстуре, чтобы она удалила курьера после теста
+        cleanup_courier.update(payload)
       
         assert response.status_code == 201, (
             f'Получен статус-код {response.status_code}, '
@@ -50,10 +53,7 @@ class TestCreateCourier:
             f'Получен ответ {response.json()}, '
             f'ожидался {Messages.CREATE_COURIER_SUCCESS}')
         
-        # Передаём данные фикстуре, чтобы она удалила курьера после теста
-        cleanup_courier.update(payload)
-
-
+        
     @allure.title('Нельзя создать двух одинаковых курьеров')
     def test_create_duplicate_courier(self, cleanup_courier):
         with allure.step('Сгенерировать данные для курьера'):
@@ -69,6 +69,9 @@ class TestCreateCourier:
         with allure.step('Отправить второй POST-запрос на создание курьера с такими же данными'):
             response = requests.post(Urls.CREATE_COURIER_URL, data=payload)
 
+        # Передаём данные фикстуре, чтобы она удалила курьера после теста
+        cleanup_courier.update(payload)
+
         assert response.status_code == 409, (
             f'Получен статус-код {response.status_code}, '
             f'ожидался 409')
@@ -76,10 +79,7 @@ class TestCreateCourier:
             f'Получено сообщение "{response.json()['message']}", '
             f'ожидалось "{Messages.CREATE_COURIER_ALREADY_EXISTS}"')
         
-        # Передаём данные фикстуре, чтобы она удалила курьера после теста
-        cleanup_courier.update(payload)
-
-
+        
     @allure.title('Нельзя создать курьера без обязательного поля login или password')
     @pytest.mark.parametrize('field_to_empty', ['login', 'password'], 
         ids=['without_login', 'without_password'])

@@ -1,6 +1,6 @@
 import pytest
 
-from generators import generate_order_data
+from generators import generate_random_string, generate_order_data
 from helpers import register_new_courier, get_courier_id, delete_courier, cancel_order, create_order
 
 

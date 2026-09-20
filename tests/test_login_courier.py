@@ -24,6 +24,7 @@ class TestLoginCourier:
         assert 'id' in response.json(), (
             f'В ответе нет ключа "id". Получен ответ: {response.json()}')
 
+
     @allure.title('Нельзя авторизовать курьера без обязательного поля login или password')
     @pytest.mark.parametrize('field_to_empty', ['login', 'password'], 
         ids=['empty_login', 'empty_password'])
@@ -44,6 +45,7 @@ class TestLoginCourier:
         assert response.json()['message'] == Messages.LOGIN_COURIER_MISSING_FIELDS, (
             f'Получено сообщение "{response.json()['message']}", '
             f'ожидалось "{Messages.LOGIN_COURIER_MISSING_FIELDS}"')
+
 
     @allure.title('Неверный login или password')
     @pytest.mark.parametrize('invalid_field', ['login', 'password'], 

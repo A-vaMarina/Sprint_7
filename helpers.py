@@ -47,3 +47,10 @@ def cancel_order(track):
 
 def create_order(payload):
     return requests.post(Urls.CREATE_ORDER_URL, json=payload)
+
+def get_order_id_by_track(track):
+    """
+    Получает id заказа из ответа на запрос заказа по track.
+    """
+    response = requests.get(Urls.GET_ORDER_BY_TRACK_URL, params={'t': track})
+    return response.json()['order']['id']

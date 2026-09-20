@@ -2,7 +2,6 @@ import requests
 import allure
 
 from data import Urls, Messages
-from generators import generate_order_data
 
 
 @allure.feature('Получение заказа по трекинговому номеру')

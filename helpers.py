@@ -40,3 +40,10 @@ def delete_courier(courier_id):
     Удаляет курьера по его id. Возвращает response.
     """
     return requests.delete(f"{Urls.DELETE_COURIER_URL}{courier_id}")
+
+
+def cancel_order(track):
+    return requests.put(Urls.CANCEL_ORDER_URL, params={'track': track})    
+
+def create_order(payload):
+    return requests.post(Urls.CREATE_ORDER_URL, json=payload)

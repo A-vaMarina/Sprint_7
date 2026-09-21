@@ -52,32 +52,22 @@ class TestCreateCourier:
         assert response.json() == Messages.CREATE_COURIER_SUCCESS, (
             f'Получен ответ {response.json()}, '
             f'ожидался {Messages.CREATE_COURIER_SUCCESS}')
-        
-        
+
+
     @allure.title('Нельзя создать двух одинаковых курьеров')
-    def test_create_duplicate_courier(self, cleanup_courier):
-        with allure.step('Сгенерировать данные для курьера'):
-                    payload = {
-                        "login": generate_random_string(),
-                        "password": generate_random_string(),
-                        "firstName": generate_random_string(),
-                    }
-        
-        with allure.step('Отправить первый POST-запрос на создание курьера'):
+    def test_create_duplicate_courier(self, create_and_delete_courier):
+        # Наличие зарегистрированного пользователя в этом тесте является предусловием, поэтому использована фикстура,
+        # создающая и удаляющая курьера после теста. Данные курьера для запроса берем из фикстуры.
+        payload = create_and_delete_courier
+        with allure.step('Отправить POST-запрос на создание курьера с такими же данными'):
             response = requests.post(Urls.CREATE_COURIER_URL, data=payload)
-
-        with allure.step('Отправить второй POST-запрос на создание курьера с такими же данными'):
-            response = requests.post(Urls.CREATE_COURIER_URL, data=payload)
-
-        # Передаём данные фикстуре, чтобы она удалила курьера после теста
-        cleanup_courier.update(payload)
 
         assert response.status_code == 409, (
             f'Получен статус-код {response.status_code}, '
             f'ожидался 409')
         assert response.json()['message'] == Messages.CREATE_COURIER_ALREADY_EXISTS, (
-            f'Получено сообщение "{response.json()['message']}", '
-            f'ожидалось "{Messages.CREATE_COURIER_ALREADY_EXISTS}"')
+            f'Получено сообщение "{response.json()["message"]}", '
+            f'ожидалось "{Messages.CREATE_COURIER_ALREADY_EXISTS}"')   
         
         
     @allure.title('Нельзя создать курьера без обязательного поля login или password')
